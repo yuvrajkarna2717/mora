@@ -1,7 +1,8 @@
 // src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from './context/ThemeContext';
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 import MainLayout from './components/Layout/MainLayout';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -20,7 +21,7 @@ import NotFound from './pages/NotFound';
 
 function App() {
   return (
-    <ThemeProvider>
+    <Provider store={store}>
       <Router>
         <MainLayout>
           <Navbar />
@@ -41,7 +42,7 @@ function App() {
           <Footer />
         </MainLayout>
       </Router>
-    </ThemeProvider>
+    </Provider>
   );
 }
 

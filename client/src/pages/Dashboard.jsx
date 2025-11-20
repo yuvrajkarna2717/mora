@@ -1,12 +1,9 @@
 // src/pages/Dashboard.jsx
 import React, { useState } from 'react';
-import { useTheme } from '../context/ThemeContext';
 import { Clock, TrendingUp, BarChart3, Zap } from 'lucide-react';
 import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
 
 const Dashboard = () => {
-  const { theme } = useTheme();
-
   const todayData = {
     totalTime: '6h 32m',
     productive: '4h 15m',
@@ -50,99 +47,71 @@ const Dashboard = () => {
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
           <h1 className="text-4xl font-bold font-heading mb-2">Dashboard</h1>
-          <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>
-            Welcome back! Here's your productivity overview.
-          </p>
+          <p className="text-gray-600">Welcome back! Here's your productivity overview.</p>
         </div>
 
-        {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          <div className={`p-6 rounded-xl ${theme === 'dark' ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'} hover:shadow-lg transition-all`}>
+          <div className="p-6 rounded-xl bg-white border border-gray-200 hover:shadow-lg transition-all">
             <div className="flex items-center justify-between mb-4">
               <Clock className="w-8 h-8 text-blue-500" />
-              <span className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Today</span>
+              <span className="text-sm text-gray-600">Today</span>
             </div>
             <h3 className="text-3xl font-bold mb-1">{todayData.totalTime}</h3>
-            <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>Total Time</p>
+            <p className="text-gray-600">Total Time</p>
           </div>
 
-          <div className={`p-6 rounded-xl ${theme === 'dark' ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'} hover:shadow-lg transition-all`}>
+          <div className="p-6 rounded-xl bg-white border border-gray-200 hover:shadow-lg transition-all">
             <div className="flex items-center justify-between mb-4">
               <TrendingUp className="w-8 h-8 text-green-500" />
-              <span className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Productive</span>
+              <span className="text-sm text-gray-600">Productive</span>
             </div>
             <h3 className="text-3xl font-bold mb-1">{todayData.productive}</h3>
-            <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>Productive Time</p>
+            <p className="text-gray-600">Productive Time</p>
           </div>
 
-          <div className={`p-6 rounded-xl ${theme === 'dark' ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'} hover:shadow-lg transition-all`}>
+          <div className="p-6 rounded-xl bg-white border border-gray-200 hover:shadow-lg transition-all">
             <div className="flex items-center justify-between mb-4">
               <BarChart3 className="w-8 h-8 text-red-500" />
-              <span className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Distracting</span>
+              <span className="text-sm text-gray-600">Distracting</span>
             </div>
             <h3 className="text-3xl font-bold mb-1">{todayData.distracting}</h3>
-            <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>Distracting Time</p>
+            <p className="text-gray-600">Distracting Time</p>
           </div>
 
-          <div className={`p-6 rounded-xl ${theme === 'dark' ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'} hover:shadow-lg transition-all`}>
+          <div className="p-6 rounded-xl bg-white border border-gray-200 hover:shadow-lg transition-all">
             <div className="flex items-center justify-between mb-4">
               <Zap className="w-8 h-8 text-yellow-500" />
-              <span className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>Score</span>
+              <span className="text-sm text-gray-600">Score</span>
             </div>
             <h3 className="text-3xl font-bold mb-1">{todayData.productivityScore}%</h3>
-            <p className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>Productivity Score</p>
+            <p className="text-gray-600">Productivity Score</p>
           </div>
         </div>
 
-        {/* Charts Row */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-          {/* Weekly Activity */}
-          <div className={`p-6 rounded-xl ${theme === 'dark' ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}>
+          <div className="p-6 rounded-xl bg-white border border-gray-200">
             <h3 className="text-xl font-semibold mb-4">Weekly Activity</h3>
             <ResponsiveContainer width="100%" height={250}>
               <LineChart data={weeklyData}>
-                <XAxis dataKey="day" stroke={theme === 'dark' ? '#9ca3af' : '#6b7280'} />
-                <YAxis stroke={theme === 'dark' ? '#9ca3af' : '#6b7280'} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: theme === 'dark' ? '#1f2937' : '#ffffff',
-                    border: `1px solid ${theme === 'dark' ? '#374151' : '#e5e7eb'}`,
-                    borderRadius: '8px',
-                    color: theme === 'dark' ? '#ffffff' : '#000000'
-                  }}
-                />
+                <XAxis dataKey="day" stroke="#6b7280" />
+                <YAxis stroke="#6b7280" />
+                <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '8px', color: '#000000' }} />
                 <Line type="monotone" dataKey="hours" stroke="#3b82f6" strokeWidth={3} />
               </LineChart>
             </ResponsiveContainer>
           </div>
 
-          {/* Category Breakdown */}
-          <div className={`p-6 rounded-xl ${theme === 'dark' ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'}`}>
+          <div className="p-6 rounded-xl bg-white border border-gray-200">
             <h3 className="text-xl font-semibold mb-4">Category Breakdown</h3>
             <div className="flex items-center justify-center">
               <ResponsiveContainer width="100%" height={250}>
                 <PieChart>
-                  <Pie
-                    data={categoryData}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    outerRadius={80}
-                    fill="#8884d8"
-                    dataKey="value"
-                  >
+                  <Pie data={categoryData} cx="50%" cy="50%" labelLine={false} outerRadius={80} fill="#8884d8" dataKey="value">
                     {categoryData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={entry.color} />
                     ))}
                   </Pie>
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: theme === 'dark' ? '#1f2937' : '#ffffff',
-                      border: `1px solid ${theme === 'dark' ? '#374151' : '#e5e7eb'}`,
-                      borderRadius: '8px',
-                      color: theme === 'dark' ? '#ffffff' : '#000000'
-                    }}
-                  />
+                  <Tooltip contentStyle={{ backgroundColor: '#ffffff', border: '1px solid #e5e7eb', borderRadius: '8px', color: '#000000' }} />
                 </PieChart>
               </ResponsiveContainer>
             </div>
@@ -150,44 +119,39 @@ const Dashboard = () => {
               {categoryData.map((cat, idx) => (
                 <div key={idx} className="flex items-center">
                   <div className="w-3 h-3 rounded-full mr-2" style={{ backgroundColor: cat.color }}></div>
-                  <span className={`text-sm ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>{cat.name}</span>
+                  <span className="text-sm text-gray-600">{cat.name}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        {/* Top Distracting Sites */}
-        <div className={`p-6 rounded-xl ${theme === 'dark' ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'} mb-8`}>
+        <div className="p-6 rounded-xl bg-white border border-gray-200 mb-8">
           <h3 className="text-xl font-semibold mb-4">Top 5 Distracting Sites</h3>
           <div className="space-y-4">
             {topDistractingSites.map((site, idx) => (
               <div key={idx}>
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-medium">{site.name}</span>
-                  <span className={theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}>{site.time}</span>
+                  <span className="text-gray-600">{site.time}</span>
                 </div>
-                <div className={`w-full h-2 rounded-full ${theme === 'dark' ? 'bg-gray-700' : 'bg-gray-200'}`}>
-                  <div
-                    className="h-2 rounded-full bg-gradient-to-r from-red-500 to-orange-500"
-                    style={{ width: `${site.percentage}%` }}
-                  ></div>
+                <div className="w-full h-2 rounded-full bg-gray-200">
+                  <div className="h-2 rounded-full bg-gradient-to-r from-red-500 to-orange-500" style={{ width: `${site.percentage}%` }}></div>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* AI Insights */}
-        <div className={`p-6 rounded-xl ${theme === 'dark' ? 'bg-gradient-to-br from-purple-900/50 to-blue-900/50 border border-gray-700' : 'bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200'}`}>
+        <div className="p-6 rounded-xl bg-gradient-to-br from-purple-50 to-blue-50 border border-purple-200">
           <div className="flex items-center gap-3 mb-4">
             <Zap className="w-6 h-6 text-yellow-500" />
             <h3 className="text-xl font-semibold">AI Insights (Pro)</h3>
           </div>
           <div className="space-y-3">
             {aiInsights.map((insight, idx) => (
-              <div key={idx} className={`p-4 rounded-lg ${theme === 'dark' ? 'bg-gray-800/50' : 'bg-white/50'}`}>
-                <p className={theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}>{insight}</p>
+              <div key={idx} className="p-4 rounded-lg bg-white/50">
+                <p className="text-gray-700">{insight}</p>
               </div>
             ))}
           </div>

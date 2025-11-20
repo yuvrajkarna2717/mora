@@ -1,16 +1,22 @@
 // src/styles/theme.js
 export const theme = {
-  // Color variables
+  // Color variables - only gray-900 and white
   colors: {
     light: {
       bg: 'white',
-      text: 'black',
+      text: 'gray-900',
+      secondary: 'gray-600',
+      border: 'gray-200',
       gridLine: '#4f4f4f2e',
+      accent: 'gray-100',
     },
     dark: {
       bg: 'gray-900',
       text: 'white',
+      secondary: 'gray-400',
+      border: 'gray-700',
       gridLine: '#ffffff1a',
+      accent: 'gray-800',
     }
   },
   

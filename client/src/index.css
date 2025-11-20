@@ -4,7 +4,17 @@
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
   --font-heading: "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", monospace;
+  
+  /* Light theme colors */
+  --color-bg: white;
+  --color-text: #111827; /* gray-900 */
+  --color-secondary: #4b5563; /* gray-600 */
+  --color-border: #e5e7eb; /* gray-200 */
+  --color-accent: #f3f4f6; /* gray-100 */
+  --color-grid: #4f4f4f2e;
 }
+
+
 
 * {
   margin: 0;
