@@ -10,7 +10,7 @@ async function initializeTracking() {
       await setCurrentTab(tabs[0].id);
     }
   } catch (error) {
-    console.log('Init error:', error);
+    console.log("Init error:", error);
   }
 }
 
@@ -44,16 +44,12 @@ chrome.windows.onFocusChanged.addListener(async (windowId) => {
 async function setCurrentTab(tabId) {
   try {
     const tab = await chrome.tabs.get(tabId);
-    if (tab.url && !tab.url.startsWith('chrome://') && !tab.url.startsWith('chrome-extension://')) {
-      const domain = new URL(tab.url).hostname;
-      currentTab = domain;
-      startTime = Date.now();
-      startPeriodicSave();
-    } else {
-      stopTracking();
-    }
+    const domain = new URL(tab.url).hostname;
+    currentTab = domain;
+    startTime = Date.now();
+    startPeriodicSave();
   } catch (error) {
-    console.log('Error getting tab:', error);
+    console.log("Error getting tab:", error);
     stopTracking();
   }
 }
@@ -76,14 +72,14 @@ async function saveCurrentTime() {
   if (currentTab && startTime) {
     const timeSpent = Date.now() - startTime;
     const today = new Date().toDateString();
-    
+
     const result = await chrome.storage.local.get([today]);
     const data = result[today] || {};
-    
+
     data[currentTab] = (data[currentTab] || 0) + timeSpent;
-    
+
     await chrome.storage.local.set({ [today]: data });
-    
+
     // Reset start time for continuous tracking
     startTime = Date.now();
   }
@@ -98,11 +94,49 @@ chrome.runtime.onSuspend.addListener(saveCurrentTime);
 
 // Track idle state
 chrome.idle.onStateChanged.addListener((state) => {
-  if (state === 'idle' || state === 'locked') {
+  if (state === "idle" || state === "locked") {
     saveCurrentTime();
     stopTracking();
-  } else if (state === 'active') {
+  } else if (state === "active") {
     initializeTracking();
+  }
+});
+
+// Handle authentication messages from web app
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'AUTH_SUCCESS') {
+    chrome.storage.local.set({
+      authToken: message.token,
+      user: message.user,
+      tokenExpiry: Date.now() + (7 * 24 * 60 * 60 * 1000)
+    });
+    sendResponse({ success: true });
+  } else if (message.type === 'GET_DATA') {
+    chrome.storage.local.get().then((result) => {
+      const { authToken, user, tokenExpiry, ...usageData } = result;
+      sendResponse({ data: usageData });
+    });
+    return true;
+  } else if (message.type === 'GET_AUTH') {
+    chrome.storage.local.get(['authToken', 'user', 'tokenExpiry']).then((result) => {
+      if (result.authToken && result.tokenExpiry > Date.now()) {
+        sendResponse({ token: result.authToken, user: result.user });
+      } else {
+        sendResponse({ token: null, user: null });
+      }
+    });
+    return true;
+  }
+});
+
+chrome.runtime.onMessageExternal.addListener((message, sender, sendResponse) => {
+  if (message.type === 'AUTH_SUCCESS') {
+    chrome.storage.local.set({
+      authToken: message.token,
+      user: message.user,
+      tokenExpiry: Date.now() + (7 * 24 * 60 * 60 * 1000)
+    });
+    sendResponse({ success: true });
   }
 });
 

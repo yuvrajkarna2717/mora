@@ -57,8 +57,53 @@ async function exportData() {
   URL.revokeObjectURL(url);
 }
 
+const API_BASE = 'http://localhost:3001';
+
+async function getAuthToken() {
+  const result = await chrome.storage.local.get(['authToken']);
+  return result.authToken;
+}
+
+async function setAuthToken(token, user) {
+  await chrome.storage.local.set({ 
+    authToken: token, 
+    user: user,
+    tokenExpiry: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
+  });
+}
+
+async function isAuthenticated() {
+  const result = await chrome.storage.local.get(['authToken', 'tokenExpiry']);
+  console.log('Auth check:', result);
+  
+  if (!result.authToken || !result.tokenExpiry) {
+    console.log('No token or expiry');
+    return false;
+  }
+  
+  // Check if token is expired
+  if (result.tokenExpiry <= Date.now()) {
+    console.log('Token expired');
+    await chrome.storage.local.remove(['authToken', 'user', 'tokenExpiry']);
+    return false;
+  }
+  
+  console.log('Token valid');
+  return true;
+}
+
+async function handleDetailedStats() {
+  chrome.tabs.create({ url: `http://localhost:5173/stats` });
+}
+
+async function handleBackupData() {
+  chrome.tabs.create({ url: `http://localhost:5173/backup` });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   loadDomainData();
+  document.getElementById('detailedStats').addEventListener('click', handleDetailedStats);
+  document.getElementById('backupData').addEventListener('click', handleBackupData);
   document.getElementById('clearData').addEventListener('click', clearTodayData);
   document.getElementById('exportData').addEventListener('click', exportData);
 });
