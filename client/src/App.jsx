@@ -11,6 +11,9 @@ import Pricing from './pages/Pricing';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import GoogleCallback from './pages/GoogleCallback';
+import AuthCallback from './pages/AuthCallback';
+import Stats from './pages/Stats';
+import Backup from './pages/Backup';
 import Dashboard from './pages/Dashboard';
 import Comparison from './pages/Comparison';
 import Exports from './pages/Exports';
@@ -18,6 +21,7 @@ import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import Billing from './pages/Billing';
 import NotFound from './pages/NotFound';
+import FAQ from './pages/FAQ';
 
 function App() {
   return (
@@ -28,9 +32,13 @@ function App() {
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/pricing" element={<Pricing />} />
+            <Route path="/faq" element={<FAQ />} />
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/auth/google/callback" element={<GoogleCallback />} />
+            <Route path="/auth/callback" element={<AuthCallback />} />
+            <Route path="/stats" element={<Stats />} />
+            <Route path="/backup" element={<Backup />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/comparison" element={<Comparison />} />
             <Route path="/dashboard/exports" element={<Exports />} />

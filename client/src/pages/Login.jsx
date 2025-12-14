@@ -1,20 +1,63 @@
 // src/pages/Login.jsx
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [checking, setChecking] = useState(true);
+  const redirect = searchParams.get('redirect') || 'dashboard';
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    navigate('/dashboard');
+  useEffect(() => {
+    checkExtensionAuth();
+  }, []);
+
+  const checkExtensionAuth = async () => {
+    try {
+      // Check if we can get auth data from extension
+      if (window.chrome && chrome.runtime) {
+        chrome.runtime.sendMessage({ type: 'GET_AUTH' }, async (response) => {
+          if (response && response.token && response.user) {
+            // Verify token with server
+            const authResponse = await fetch(`${import.meta.env.VITE_API_URL}/auth/extension-auth`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ token: response.token, user: response.user })
+            });
+            
+            if (authResponse.ok) {
+              const data = await authResponse.json();
+              localStorage.setItem('token', data.token);
+              localStorage.setItem('user', JSON.stringify(data.user));
+              navigate(`/${redirect}`);
+              return;
+            }
+          }
+          setChecking(false);
+        });
+      } else {
+        setChecking(false);
+      }
+    } catch (error) {
+      console.error('Extension auth check failed:', error);
+      setChecking(false);
+    }
   };
 
   const handleGoogleLogin = () => {
-    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google`;
+    window.location.href = `${import.meta.env.VITE_API_URL}/auth/google?redirect=${redirect}`;
   };
+
+  if (checking) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 border-4 border-gray-900 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-lg text-gray-600">Checking authentication...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-20">
@@ -33,54 +76,8 @@ const Login = () => {
           Continue with Google
         </button>
 
-        <div className="relative mb-6">
-          <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-300"></div>
-          </div>
-          <div className="relative flex justify-center text-sm">
-            <span className="px-2 bg-white text-gray-500">Or continue with email</span>
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700">Email</label>
-            <div className="relative">
-              <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="email"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-50 border-gray-300 text-black border focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none transition-all"
-                placeholder="you@example.com"
-                required
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2 text-gray-700">Password</label>
-            <div className="relative">
-              <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input
-                type="password"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-50 border-gray-300 text-black border focus:ring-2 focus:ring-gray-900 focus:border-transparent outline-none transition-all"
-                placeholder="••••••••"
-                required
-              />
-            </div>
-          </div>
-
-          <button type="submit" className="w-full py-3 bg-gray-900 text-white hover:bg-gray-800 font-semibold rounded-lg hover:shadow-lg transition-all">
-            Sign In
-          </button>
-        </form>
-
-        <p className="text-center mt-6 text-gray-600">
-          Don't have an account?{' '}
-          <Link to="/signup" className="text-gray-900 hover:text-gray-700 font-semibold">Sign up</Link>
+        <p className="text-center mt-6 text-gray-500 text-sm">
+          Sign in with Google to access AI insights and cloud backup
         </p>
       </div>
     </div>
