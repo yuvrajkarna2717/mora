@@ -45,6 +45,13 @@ async function setCurrentTab(tabId) {
   try {
     const tab = await chrome.tabs.get(tabId);
     const domain = new URL(tab.url).hostname;
+    
+    // Filter out unwanted domains
+    if (!domain || domain === 'null' || domain === 'newtab' || domain === '') {
+      stopTracking();
+      return;
+    }
+    
     currentTab = domain;
     startTime = Date.now();
     startPeriodicSave();
@@ -70,6 +77,11 @@ function stopTracking() {
 
 async function saveCurrentTime() {
   if (currentTab && startTime) {
+    // Skip saving for unwanted domains
+    if (!currentTab || currentTab === 'null' || currentTab === 'newtab' || currentTab === '') {
+      return;
+    }
+    
     const timeSpent = Date.now() - startTime;
     const today = new Date().toDateString();
 
@@ -113,7 +125,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     sendResponse({ success: true });
   } else if (message.type === 'GET_DATA') {
     chrome.storage.local.get().then((result) => {
+      console.log('Background: All storage data:', result);
       const { authToken, user, tokenExpiry, ...usageData } = result;
+      console.log('Background: Auth data filtered out:', { authToken: !!authToken, user: !!user, tokenExpiry: !!tokenExpiry });
+      console.log('Background: Usage data to send:', usageData);
+      console.log('Background: Usage data keys:', Object.keys(usageData));
       sendResponse({ data: usageData });
     });
     return true;
