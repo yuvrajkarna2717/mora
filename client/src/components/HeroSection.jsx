@@ -5,9 +5,9 @@ import { ArrowRight, Check } from 'lucide-react';
 
 const HeroSection = () => {
   const features = [
-    "Pay once, use forever",
-    "1-minute no-code setup", 
-    "Increase conversion rate"
+    "Completely free to use",
+    "Track browsing habits", 
+    "Get AI-powered insights"
   ];
 
   return (
@@ -15,30 +15,29 @@ const HeroSection = () => {
       <div className="max-w-6xl mx-auto text-center">
         {/* Badge */}
         <div className="inline-flex items-center gap-2 mb-8">
-          <span className="text-sm text-gray-600">ExtensionPay in action</span>
+          <span className="text-sm text-gray-600">Mora in action</span>
           <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor">
             <path d="M7 17L17 7M17 7H7M17 7V17" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
           <div className="bg-white rounded-full p-2 shadow-sm">
-            <span className="text-lg">💰</span>
+            <span className="text-lg">📊</span>
           </div>
         </div>
 
         {/* Main Headline */}
         <h1 className="text-6xl md:text-7xl font-bold text-gray-900 mb-8 leading-tight">
-          Monetize your browser extension
+          Track your browsing habits
           <br />
           <span className="relative">
-            with secure payments
+            and boost productivity
             <div className="absolute -bottom-2 left-0 right-0 h-3 bg-orange-200 -z-10 rounded-full"></div>
           </span>
         </h1>
 
         {/* Subtitle */}
         <p className="text-xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed">
-          Seamlessly integrate payment processing into your browser extension.
-          Accept payments, manage subscriptions, and unlock premium features
-          with our developer-friendly payment gateway.
+          Monitor your browsing patterns, get AI-powered insights, and improve your focus.
+          Understand where your time goes and make better decisions about your digital habits.
         </p>
 
         {/* Features List */}
@@ -56,7 +55,7 @@ const HeroSection = () => {
           to="/signup"
           className="inline-flex items-center gap-2 bg-orange-400 hover:bg-orange-500 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all shadow-lg hover:shadow-xl"
         >
-          Get ExtensionPay
+          Start Tracking Free
           <ArrowRight className="w-5 h-5" />
         </Link>
       </div>

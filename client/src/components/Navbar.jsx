@@ -7,13 +7,10 @@ const Navbar = () => {
     <nav className="flex items-center justify-between px-8 py-6 bg-orange-50">
       <Link to="/" className="flex items-center gap-2 text-xl font-bold text-gray-900">
         <span className="text-2xl">🧩</span>
-        ExtensionPay
+        Mora
       </Link>
 
       <div className="hidden md:flex items-center gap-8">
-        <Link to="/pricing" className="text-gray-700 hover:text-gray-900 font-medium">
-          Pricing
-        </Link>
         <Link to="/faq" className="text-gray-700 hover:text-gray-900 font-medium">
           FAQ
         </Link>
