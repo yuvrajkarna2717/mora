@@ -12,6 +12,7 @@ passport.use(new GoogleStrategy({
   callbackURL: "http://localhost:3001/auth/google/callback"
 }, async (accessToken, refreshToken, profile, done) => {
   try {
+    console.log('Google profile received:', profile.id, profile.emails[0].value);
     const { data: user, error } = await supabase
       .from('users')
       .upsert({
@@ -23,9 +24,11 @@ passport.use(new GoogleStrategy({
       .select()
       .single();
 
+    console.log('Supabase response:', { user, error });
     if (error) throw error;
     return done(null, user);
   } catch (error) {
+    console.error('Google strategy error:', error);
     return done(error, null);
   }
 }));
@@ -55,18 +58,24 @@ router.get('/google', (req, res, next) => {
 router.get('/google/callback', 
   passport.authenticate('google', { failureRedirect: `${process.env.CLIENT_URL}/login` }),
   (req, res) => {
-    const token = jwt.sign(
-      { userId: req.user.id, email: req.user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: '7d' }
-    );
-    
-    const redirect = req.session.redirect || 'dashboard';
-    res.redirect(`${process.env.CLIENT_URL}/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
-      id: req.user.id,
-      email: req.user.email,
-      name: req.user.name
-    }))}&redirect=${redirect}`);
+    try {
+      const token = jwt.sign(
+        { userId: req.user.id, email: req.user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: '7d' }
+      );
+      
+      const redirect = req.session.redirect || 'dashboard';
+      const redirectUrl = `${process.env.CLIENT_URL}/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
+        id: req.user.id,
+        email: req.user.email,
+        name: req.user.name
+      }))}&redirect=${redirect}`;
+      
+      res.redirect(redirectUrl);
+    } catch (error) {
+      res.redirect(`${process.env.CLIENT_URL}/login?error=callback_failed`);
+    }
   }
 );
 

@@ -7,6 +7,7 @@ require('dotenv').config();
 const { router: authRoutes } = require('./routes/auth');
 const statsRoutes = require('./routes/stats');
 const backupRoutes = require('./routes/backup');
+const insightsRoutes = require('./routes/insights');
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use(passport.session());
 app.use('/auth', authRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/backup', backupRoutes);
+app.use('/api/insights', insightsRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'OK' });
