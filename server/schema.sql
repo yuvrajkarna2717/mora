@@ -5,6 +5,8 @@ CREATE TABLE users (
   email VARCHAR UNIQUE NOT NULL,
   name VARCHAR NOT NULL,
   avatar VARCHAR,
+  privacy_policy_accepted BOOLEAN DEFAULT FALSE,
+  privacy_policy_accepted_at TIMESTAMP WITH TIME ZONE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );

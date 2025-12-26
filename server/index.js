@@ -8,6 +8,7 @@ const { router: authRoutes } = require('./routes/auth');
 const statsRoutes = require('./routes/stats');
 const backupRoutes = require('./routes/backup');
 const insightsRoutes = require('./routes/insights');
+const privacyRoutes = require('./routes/privacy');
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use('/auth', authRoutes);
 app.use('/api/stats', statsRoutes);
 app.use('/api/backup', backupRoutes);
 app.use('/api/insights', insightsRoutes);
+app.use('/api/privacy', privacyRoutes);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'OK' });

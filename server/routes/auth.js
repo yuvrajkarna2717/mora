@@ -19,7 +19,8 @@ passport.use(new GoogleStrategy({
         google_id: profile.id,
         email: profile.emails[0].value,
         name: profile.displayName,
-        avatar: profile.photos[0].value
+        avatar: profile.photos[0].value,
+        privacy_policy_accepted: false
       }, { onConflict: 'google_id' })
       .select()
       .single();
@@ -66,11 +67,13 @@ router.get('/google/callback',
       );
       
       const redirect = req.session.redirect || 'dashboard';
-      const redirectUrl = `${process.env.CLIENT_URL}/auth/callback?token=${token}&user=${encodeURIComponent(JSON.stringify({
+      const userParam = encodeURIComponent(JSON.stringify({
         id: req.user.id,
         email: req.user.email,
         name: req.user.name
-      }))}&redirect=${redirect}`;
+      }));
+      
+      const redirectUrl = `${process.env.CLIENT_URL}/auth/callback?token=${token}&user=${userParam}&redirect=${redirect}`;
       
       res.redirect(redirectUrl);
     } catch (error) {
@@ -96,6 +99,15 @@ const authenticateToken = (req, res, next) => {
 
 router.get('/verify', authenticateToken, (req, res) => {
   res.json({ valid: true, user: req.user });
+});
+
+router.post('/logout', (req, res) => {
+  req.logout((err) => {
+    if (err) {
+      return res.status(500).json({ error: 'Logout failed' });
+    }
+    res.json({ success: true });
+  });
 });
 
 router.post('/extension-auth', async (req, res) => {
