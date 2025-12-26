@@ -52,7 +52,7 @@ const HeroSection = () => {
 
         {/* CTA Button */}
         <Link 
-          to="/signup"
+          to="/signin"
           className="inline-flex items-center gap-2 bg-orange-400 hover:bg-orange-500 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all shadow-lg hover:shadow-xl"
         >
           Start Tracking Free

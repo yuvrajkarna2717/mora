@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../store/authSlice';
 
 const AuthCallback = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const handleCallback = async () => {
@@ -12,9 +15,14 @@ const AuthCallback = () => {
 
       if (token && user) {
         try {
-          // Save to localStorage for web app
+          const userData = JSON.parse(decodeURIComponent(user));
+          
+          // Save to localStorage
           localStorage.setItem('token', token);
-          localStorage.setItem('user', user);
+          localStorage.setItem('user', JSON.stringify(userData));
+
+          // Update Redux store
+          dispatch(loginSuccess({ token, user: userData }));
 
           // Send to extension if available
           try {
@@ -22,7 +30,7 @@ const AuthCallback = () => {
               chrome.runtime.sendMessage({
                 type: 'AUTH_SUCCESS',
                 token,
-                user: JSON.parse(decodeURIComponent(user))
+                user: userData
               });
             }
           } catch (error) {
@@ -34,15 +42,15 @@ const AuthCallback = () => {
           navigate(`/${redirect}`);
         } catch (error) {
           console.error('Auth callback error:', error);
-          navigate('/login');
+          navigate('/signin');
         }
       } else {
-        navigate('/login');
+        navigate('/signin');
       }
     };
 
     handleCallback();
-  }, [navigate, searchParams]);
+  }, [navigate, searchParams, dispatch]);
 
   return (
     <div className="min-h-screen flex items-center justify-center">
