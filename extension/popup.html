@@ -3,82 +3,327 @@
 <head>
   <meta charset="utf-8">
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      width: 350px;
-      padding: 16px;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      margin: 0;
-      background: #f8fafc;
+      width: 380px;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #fffbeb;
+      color: #111827;
     }
+
     .header {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      padding: 20px 16px;
+      border-bottom: 3px solid #111827;
       text-align: center;
-      margin-bottom: 20px;
     }
+
+    .logo-container {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 48px;
+      height: 48px;
+      background: white;
+      border-radius: 12px;
+      border: 2px solid #111827;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 8px;
+    }
+
+    .logo {
+      font-size: 24px;
+    }
+
     .title {
-      font-size: 18px;
-      font-weight: 600;
-      color: #1e293b;
+      font-size: 22px;
+      font-weight: 900;
+      color: #111827;
       margin: 0;
+      letter-spacing: -0.5px;
     }
+
     .subtitle {
       font-size: 12px;
-      color: #64748b;
+      color: #78350f;
       margin: 4px 0 0 0;
+      font-weight: 600;
     }
+
+    .content {
+      padding: 16px;
+    }
+
+    .stats-summary {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 12px;
+      border-radius: 10px;
+      border: 2px solid #111827;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 20px;
+      font-weight: 900;
+      color: #111827;
+      margin-bottom: 2px;
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: #6b7280;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 900;
+      color: #111827;
+      margin: 16px 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 3px;
+      height: 14px;
+      background: #fbbf24;
+      border-radius: 2px;
+    }
+
+    .domain-list {
+      max-height: 240px;
+      overflow-y: auto;
+      margin-bottom: 16px;
+    }
+
+    .domain-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .domain-list::-webkit-scrollbar-track {
+      background: #fef3c7;
+      border-radius: 3px;
+    }
+
+    .domain-list::-webkit-scrollbar-thumb {
+      background: #fbbf24;
+      border-radius: 3px;
+      border: 1px solid #111827;
+    }
+
     .domain-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 12px;
-      margin: 8px 0;
+      padding: 10px 12px;
+      margin: 6px 0;
       background: white;
       border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      border: 2px solid #111827;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: all 0.2s;
     }
+
+    .domain-item:hover {
+      transform: translateX(2px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
     .domain-name {
-      font-weight: 500;
-      color: #334155;
-      font-size: 14px;
-    }
-    .time-spent {
+      font-weight: 700;
+      color: #111827;
       font-size: 13px;
-      color: #64748b;
-      font-weight: 500;
+      max-width: 200px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
+
+    .time-spent {
+      font-size: 12px;
+      color: #6b7280;
+      font-weight: 700;
+      background: #fef3c7;
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid #111827;
+    }
+
     .no-data {
       text-align: center;
-      color: #64748b;
-      font-size: 14px;
-      padding: 20px;
+      color: #6b7280;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 32px 16px;
+      background: white;
+      border-radius: 10px;
+      border: 2px dashed #d1d5db;
     }
-    .clear-btn {
-      width: 100%;
-      padding: 8px;
-      background: #ef4444;
-      color: white;
-      border: none;
-      border-radius: 6px;
-      font-size: 12px;
-      cursor: pointer;
+
+    .no-data-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .button-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
       margin-top: 16px;
+      padding-top: 16px;
+      border-top: 2px solid #fef3c7;
     }
-    .clear-btn:hover {
-      background: #dc2626;
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #111827;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+      color: white;
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+    }
+
+    .btn-info {
+      background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+      color: white;
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+      color: white;
+    }
+
+    .btn-icon {
+      font-size: 16px;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #fbbf24;
+      color: #111827;
+      font-size: 9px;
+      font-weight: 900;
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid #111827;
+      margin-left: 4px;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 12px;
+      font-size: 10px;
+      color: #78350f;
+      font-weight: 600;
+      background: #fef3c7;
+      border-top: 2px solid #111827;
     }
   </style>
 </head>
 <body>
   <div class="header">
-    <h1 class="title">🌿 mora</h1>
-    <p class="subtitle">Today's Domain Usage</p>
+    <div class="logo-container">
+      <span class="logo">📊</span>
+    </div>
+    <h1 class="title">Mora</h1>
+    <p class="subtitle">Track Your Digital Habits</p>
   </div>
   
-  <div id="domainList"></div>
-  
-  <button id="detailedStats" class="clear-btn" style="background: #8b5cf6; margin-bottom: 8px;">Detailed Stats with AI</button>
-  <button id="backupData" class="clear-btn" style="background: #10b981; margin-bottom: 8px;">Backup Data to Cloud</button>
-  <button id="exportData" class="clear-btn" style="background: #3b82f6; margin-bottom: 8px;">Export Data</button>
-  <button id="clearData" class="clear-btn">Clear Today's Data</button>
+  <div class="content">
+    <!-- Stats Summary -->
+    <div class="stats-summary">
+      <div class="stat-card">
+        <div class="stat-value" id="totalTime">0h 0m</div>
+        <div class="stat-label">Total Time</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="sitesCount">0</div>
+        <div class="stat-label">Sites Visited</div>
+      </div>
+    </div>
+
+    <!-- Domain List -->
+    <div class="section-title">
+      📈 Today's Activity
+    </div>
+    <div class="domain-list" id="domainList"></div>
+
+    <!-- Action Buttons -->
+    <div class="button-group">
+      <button id="detailedStats" class="btn btn-primary">
+        <span class="btn-icon">🤖</span>
+        Detailed Stats with AI
+      </button>
+      
+      <button id="backupData" class="btn btn-success">
+        <span class="btn-icon">☁️</span>
+        Backup Data to Cloud
+      </button>
+      
+      <button id="exportData" class="btn btn-info">
+        <span class="btn-icon">📥</span>
+        Export Data
+      </button>
+      
+      <button id="clearData" class="btn btn-danger">
+        <span class="btn-icon">🗑️</span>
+        Clear Today's Data
+      </button>
+    </div>
+  </div>
+
+  <div class="footer">
+    Built with ❤️ by Yuvraj Karna
+  </div>
   
   <script src="popup.js"></script>
 </body>

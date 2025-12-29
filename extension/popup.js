@@ -1,8 +1,10 @@
+// popup.js - CORRECTED VERSION
+
 function formatTime(milliseconds) {
   const seconds = Math.floor(milliseconds / 1000);
   const minutes = Math.floor(seconds / 60);
   const hours = Math.floor(minutes / 60);
-  
+
   if (hours > 0) {
     return `${hours}h ${minutes % 60}m`;
   } else if (minutes > 0) {
@@ -16,94 +18,301 @@ async function loadDomainData() {
   const today = new Date().toDateString();
   const result = await chrome.storage.local.get([today]);
   const data = result[today] || {};
-  
-  const domainList = document.getElementById('domainList');
-  
+
+  const domainList = document.getElementById("domainList");
+
+  // Calculate total time and sites count
+  const totalTimeMs = Object.values(data).reduce((sum, time) => sum + time, 0);
+  const sitesCount = Object.keys(data).length;
+
+  // Update stats
+  document.getElementById("totalTime").textContent = formatTime(totalTimeMs);
+  document.getElementById("sitesCount").textContent = sitesCount;
+
   if (Object.keys(data).length === 0) {
-    domainList.innerHTML = '<div class="no-data">No browsing data for today</div>';
+    domainList.innerHTML = `
+      <div class="no-data">
+        <div class="no-data-icon">🌱</div>
+        <div>No browsing data for today</div>
+        <div style="font-size: 11px; margin-top: 4px; color: #9ca3af;">Start browsing to see your stats!</div>
+      </div>
+    `;
     return;
   }
-  
+
   // Sort domains by time spent (descending)
   const sortedDomains = Object.entries(data)
-    .sort(([,a], [,b]) => b - a)
+    .sort(([, a], [, b]) => b - a)
     .slice(0, 10); // Show top 10 domains
-  
+
+  // Build HTML using proper string concatenation
   domainList.innerHTML = sortedDomains
-    .map(([domain, time]) => `
-      <div class="domain-item">
-        <div class="domain-name">${domain}</div>
-        <div class="time-spent">${formatTime(time)}</div>
-      </div>
-    `).join('');
+    .map(([domain, time], index) => {
+      const medal =
+        index === 0 ? "🥇 " : index === 1 ? "🥈 " : index === 2 ? "🥉 " : "";
+      const formattedTime = formatTime(time);
+
+      return `
+        <div class="domain-item">
+          <div class="domain-name">
+            ${medal}${domain}
+          </div>
+          <div class="time-spent">${formattedTime}</div>
+        </div>
+      `;
+    })
+    .join("");
 }
 
 async function clearTodayData() {
+  if (
+    !confirm(
+      "Are you sure you want to clear today's data? This cannot be undone."
+    )
+  ) {
+    return;
+  }
+
   const today = new Date().toDateString();
   await chrome.storage.local.remove([today]);
   await loadDomainData();
+
+  // Show success message
+  showNotification("✅ Today's data cleared successfully!");
 }
 
 async function exportData() {
   const result = await chrome.storage.local.get();
-  const blob = new Blob([JSON.stringify(result, null, 2)], { type: 'application/json' });
+  const blob = new Blob([JSON.stringify(result, null, 2)], {
+    type: "application/json",
+  });
   const url = URL.createObjectURL(blob);
-  
-  const a = document.createElement('a');
+
+  const a = document.createElement("a");
   a.href = url;
-  a.download = `mora-data-${new Date().toISOString().split('T')[0]}.json`;
+  a.download = `mora-data-${new Date().toISOString().split("T")[0]}.json`;
   a.click();
-  
+
   URL.revokeObjectURL(url);
+
+  // Show success message
+  showNotification("📥 Data exported successfully!");
 }
 
-const API_BASE = 'http://localhost:3001';
+function showNotification(message) {
+  // Create a temporary notification element
+  const notification = document.createElement("div");
+  notification.style.cssText = `
+    position: fixed;
+    top: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 2px solid #111827;
+    font-weight: 700;
+    font-size: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    animation: slideDown 0.3s ease;
+  `;
+  notification.textContent = message;
+  document.body.appendChild(notification);
+
+  // Add animation
+  const style = document.createElement("style");
+  style.textContent = `
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Remove after 2 seconds
+  setTimeout(() => {
+    notification.style.animation = "slideDown 0.3s ease reverse";
+    setTimeout(() => {
+      document.body.removeChild(notification);
+      document.head.removeChild(style);
+    }, 300);
+  }, 2000);
+}
+
+const API_BASE = "http://localhost:3001";
 
 async function getAuthToken() {
-  const result = await chrome.storage.local.get(['authToken']);
+  const result = await chrome.storage.local.get(["authToken"]);
   return result.authToken;
 }
 
 async function setAuthToken(token, user) {
-  await chrome.storage.local.set({ 
-    authToken: token, 
+  await chrome.storage.local.set({
+    authToken: token,
     user: user,
-    tokenExpiry: Date.now() + (7 * 24 * 60 * 60 * 1000) // 7 days
+    tokenExpiry: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 }
 
 async function isAuthenticated() {
-  const result = await chrome.storage.local.get(['authToken', 'tokenExpiry']);
-  console.log('Auth check:', result);
-  
+  const result = await chrome.storage.local.get(["authToken", "tokenExpiry"]);
+  console.log("Auth check:", result);
+
   if (!result.authToken || !result.tokenExpiry) {
-    console.log('No token or expiry');
+    console.log("No token or expiry");
     return false;
   }
-  
+
   // Check if token is expired
   if (result.tokenExpiry <= Date.now()) {
-    console.log('Token expired');
-    await chrome.storage.local.remove(['authToken', 'user', 'tokenExpiry']);
+    console.log("Token expired");
+    await chrome.storage.local.remove(["authToken", "user", "tokenExpiry"]);
     return false;
   }
-  
-  console.log('Token valid');
+
+  console.log("Token valid");
   return true;
 }
 
 async function handleDetailedStats() {
-  chrome.tabs.create({ url: `http://localhost:5173/stats` });
+  const authenticated = await isAuthenticated();
+
+  if (!authenticated) {
+    // Show authentication required message
+    if (confirm("You need to sign in to view detailed stats. Sign in now?")) {
+      chrome.tabs.create({ url: `http://localhost:5173/signin` });
+    }
+    return;
+  }
+
+  chrome.tabs.create({ url: `http://localhost:5173/extension-dashboard` });
 }
 
 async function handleBackupData() {
-  chrome.tabs.create({ url: `http://localhost:5173/backup` });
+  const authenticated = await isAuthenticated();
+
+  if (!authenticated) {
+    if (confirm("You need to sign in to backup data to cloud. Sign in now?")) {
+      chrome.tabs.create({ url: `http://localhost:5173/signin` });
+    }
+    return;
+  }
+
+  // Get all data
+  const allData = await chrome.storage.local.get();
+  const token = await getAuthToken();
+
+  // Show loading state
+  const backupBtn = document.getElementById("backupData");
+  const originalText = backupBtn.innerHTML;
+  backupBtn.innerHTML = '<span class="btn-icon">⏳</span> Backing up...';
+  backupBtn.disabled = true;
+
+  try {
+    const response = await fetch(`${API_BASE}/api/backup`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        data: allData,
+        timestamp: new Date().toISOString(),
+        device: "chrome-extension",
+      }),
+    });
+
+    if (response.ok) {
+      showNotification("☁️ Data backed up successfully!");
+    } else {
+      throw new Error("Backup failed");
+    }
+  } catch (error) {
+    console.error("Backup error:", error);
+    showNotification("❌ Backup failed. Please try again.");
+  } finally {
+    backupBtn.innerHTML = originalText;
+    backupBtn.disabled = false;
+  }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadDomainData();
-  document.getElementById('detailedStats').addEventListener('click', handleDetailedStats);
-  document.getElementById('backupData').addEventListener('click', handleBackupData);
-  document.getElementById('clearData').addEventListener('click', clearTodayData);
-  document.getElementById('exportData').addEventListener('click', exportData);
+// Auto-refresh data every 5 seconds when popup is open
+let refreshInterval;
+
+function startAutoRefresh() {
+  refreshInterval = setInterval(() => {
+    loadDomainData();
+  }, 5000);
+}
+
+function stopAutoRefresh() {
+  if (refreshInterval) {
+    clearInterval(refreshInterval);
+  }
+}
+
+// Initialize
+document.addEventListener("DOMContentLoaded", async () => {
+  // Load initial data
+  await loadDomainData();
+
+  // Start auto-refresh
+  startAutoRefresh();
+
+  // Event listeners
+  document
+    .getElementById("detailedStats")
+    .addEventListener("click", handleDetailedStats);
+  document
+    .getElementById("backupData")
+    .addEventListener("click", handleBackupData);
+  document
+    .getElementById("clearData")
+    .addEventListener("click", clearTodayData);
+  document.getElementById("exportData").addEventListener("click", exportData);
+
+  // Check authentication status and update UI
+  const authenticated = await isAuthenticated();
+  if (authenticated) {
+    const result = await chrome.storage.local.get(["user"]);
+    if (result.user) {
+      // Update subtitle with user name
+      const subtitle = document.querySelector(".subtitle");
+      subtitle.textContent = `Welcome back, ${
+        result.user.name || "Yuvraj"
+      }! 👋`;
+    }
+  }
+});
+
+// Stop auto-refresh when popup closes
+window.addEventListener("unload", stopAutoRefresh);
+
+// Add keyboard shortcuts
+document.addEventListener("keydown", (e) => {
+  // Ctrl/Cmd + E for export
+  if ((e.ctrlKey || e.metaKey) && e.key === "e") {
+    e.preventDefault();
+    exportData();
+  }
+
+  // Ctrl/Cmd + B for backup
+  if ((e.ctrlKey || e.metaKey) && e.key === "b") {
+    e.preventDefault();
+    handleBackupData();
+  }
+
+  // Ctrl/Cmd + D for detailed stats
+  if ((e.ctrlKey || e.metaKey) && e.key === "d") {
+    e.preventDefault();
+    handleDetailedStats();
+  }
 });
