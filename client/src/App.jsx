@@ -18,6 +18,7 @@ import PrivacyPolicyGuard from "./components/PrivacyPolicyGuard";
 import AuthInitializer from "./components/AuthInitializer";
 import LandingPage from "./pages/LandingPage";
 import FeedbackPage from "./pages/FeedbackPage";
+import BackupPage from "./pages/BackupPage";
 
 function App() {
   return (
@@ -43,6 +44,14 @@ function App() {
                 element={
                   <PrivacyPolicyGuard>
                     <ExtensionDashboard />
+                  </PrivacyPolicyGuard>
+                }
+              />
+              <Route
+                path="/backup"
+                element={
+                  <PrivacyPolicyGuard>
+                    <BackupPage />
                   </PrivacyPolicyGuard>
                 }
               />

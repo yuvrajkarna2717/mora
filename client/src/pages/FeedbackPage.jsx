@@ -513,7 +513,7 @@ const FeedbackPage = () => {
         {/* Footer Note */}
         <div className="mt-8 text-center">
           <p className="text-sm text-gray-600 font-semibold">
-            Built with ❤️ in Paris 🇫🇷 by the Mora team • Your feedback makes us
+            Built with ❤️ by the Mora team • Your feedback makes us
             better
           </p>
         </div>

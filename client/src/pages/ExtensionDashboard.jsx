@@ -45,8 +45,6 @@ const ExtensionDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [insights, setInsights] = useState(null);
   const [loadingInsights, setLoadingInsights] = useState(false);
-  const [compareMode, setCompareMode] = useState(false);
-  const [compareDate, setCompareDate] = useState("");
 
   useEffect(() => {
     fetchExtensionData();
@@ -94,25 +92,6 @@ const ExtensionDashboard = () => {
                     "reddit.com": 600000,
                     "docs.google.com": 1200000,
                     "linkedin.com": 450000,
-                  },
-                  "Wed Dec 25 2025": {
-                    "github.com": 3600000,
-                    "stackoverflow.com": 1800000,
-                    "chatgpt.com": 900000,
-                    "youtube.com": 2700000,
-                    "twitter.com": 1200000,
-                  },
-                  "Tue Dec 24 2025": {
-                    "youtube.com": 5400000,
-                    "docs.google.com": 2400000,
-                    "linkedin.com": 1800000,
-                    "github.com": 3000000,
-                  },
-                  "Mon Dec 23 2025": {
-                    "github.com": 6300000,
-                    "stackoverflow.com": 2700000,
-                    "chatgpt.com": 1800000,
-                    "youtube.com": 1200000,
                   },
                 },
               });

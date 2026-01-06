@@ -494,7 +494,7 @@ const Settings = () => {
             </a>
           </p>
           <p className="text-xs text-gray-500 font-medium mt-2">
-            Built with ❤️ in Paris 🇫🇷 • Last updated: December 27, 2025
+            Built with ❤️ by the Mora team • Your feedback makes us better
           </p>
         </div>
       </div>
