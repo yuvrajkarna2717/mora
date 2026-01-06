@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const passport = require('passport');
 const session = require('express-session');
+const loggingMiddleware = require('./middleware/logging');
 require('dotenv').config();
 
 const { router: authRoutes } = require('./routes/auth');
@@ -13,11 +14,14 @@ const privacyRoutes = require('./routes/privacy');
 const app = express();
 
 app.use(cors({
-  origin: [process.env.CLIENT_URL, 'chrome-extension://*'],
-  credentials: true
+  origin: "*",
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 
 app.use(express.json());
+app.use(loggingMiddleware);
 app.use(session({
   secret: process.env.JWT_SECRET,
   resave: false,
