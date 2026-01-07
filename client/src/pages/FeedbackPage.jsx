@@ -116,7 +116,6 @@ const FeedbackPage = () => {
     }, 1500);
   };
 
-
   const selectedType = feedbackTypes.find((type) => type.id === feedbackType);
 
   if (submitted) {
@@ -436,7 +435,7 @@ const FeedbackPage = () => {
         </div>
 
         {/* Recent Submissions Stats */}
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="bg-white p-6 rounded-xl border-2 border-gray-900 shadow-lg text-center">
             <div className="text-3xl font-black text-gray-900 mb-1">247</div>
             <p className="text-xs font-bold text-gray-600">Bugs Fixed</p>
@@ -453,7 +452,7 @@ const FeedbackPage = () => {
             <div className="text-3xl font-black text-gray-900 mb-1">24h</div>
             <p className="text-xs font-bold text-gray-600">Avg Response Time</p>
           </div>
-        </div>
+        </div> */}
 
         {/* FAQ Section */}
         <div className="mt-8 bg-white rounded-2xl p-8 border-2 border-gray-900 shadow-lg">
@@ -508,14 +507,6 @@ const FeedbackPage = () => {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Footer Note */}
-        <div className="mt-8 text-center">
-          <p className="text-sm text-gray-600 font-semibold">
-            Built with ❤️ by the Mora team • Your feedback makes us
-            better
-          </p>
         </div>
       </div>
     </div>

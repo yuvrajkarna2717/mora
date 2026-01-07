@@ -142,7 +142,7 @@ const FAQ = () => {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a
-              href="mailto:support@mora.app"
+              href="mailto:yuvrajkarna.code@gmail.com"
               className="inline-flex items-center gap-3 bg-gray-900 hover:bg-gray-800 text-amber-50 px-8 py-4 rounded-xl font-bold transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 border-2 border-gray-900 w-full sm:w-auto justify-center"
             >
               <Mail className="w-5 h-5" />

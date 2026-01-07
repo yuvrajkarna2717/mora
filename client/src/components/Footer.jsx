@@ -15,7 +15,7 @@ const Footer = () => {
               <span className="text-2xl font-black text-gray-900">Mora</span>
             </div>
             <p className="text-gray-700 leading-relaxed mb-4 font-medium">
-              Transform your digital habits into productivity wins.
+              Understand your browser behavior.
             </p>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 bg-amber-400 rounded-lg flex items-center justify-center border-2 border-gray-900">
@@ -168,13 +168,13 @@ const Footer = () => {
                 Get productivity tips and updates delivered to your inbox
               </p>
             </div>
-            <div className="flex gap-3 w-full md:w-auto">
+            <div className="flex md:flex-row flex-col gap-3 w-full md:w-auto">
               <input
                 type="email"
                 placeholder="yuvrajkarna.code@gmail.com"
                 className="px-4 py-3 rounded-lg border-2 border-gray-900 focus:ring-4 focus:ring-white focus:ring-opacity-50 outline-none font-semibold text-gray-900 flex-1 md:w-64"
               />
-              <button className="px-6 py-3 bg-gray-900 hover:bg-gray-800 text-amber-50 rounded-lg font-bold transition-all border-2 border-gray-900 shadow-lg hover:shadow-xl flex items-center gap-2">
+              <button className="px-6 py-3 bg-gray-900 hover:bg-gray-800 text-amber-50 rounded-lg font-bold transition-all border-2 border-gray-900 shadow-lg hover:shadow-xl flex items-center justify-center gap-2">
                 <Mail className="w-4 h-4" />
                 Subscribe
               </button>
@@ -204,21 +204,14 @@ const Footer = () => {
             {/* Social Links */}
             <div className="flex items-center gap-3">
               <a
-                href="https://twitter.com/yuvrajkarna"
+                href="https://x.com/yuvrajkarna"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-white hover:bg-gray-900 text-gray-900 hover:text-amber-50 rounded-lg border-2 border-gray-900 flex items-center justify-center transition-all shadow-md hover:shadow-lg group"
               >
                 <Twitter className="w-5 h-5" />
               </a>
-              <a
-                href="https://github.com/mora"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-10 h-10 bg-white hover:bg-gray-900 text-gray-900 hover:text-amber-50 rounded-lg border-2 border-gray-900 flex items-center justify-center transition-all shadow-md hover:shadow-lg group"
-              >
-                <Github className="w-5 h-5" />
-              </a>
+           
               <a
                 href="https://linkedin.com/in/yuvrajkarna"
                 target="_blank"
