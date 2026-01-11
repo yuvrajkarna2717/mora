@@ -77,7 +77,7 @@ const BackupPage = () => {
           return;
         }
 
-        const endpoint = autoBackupEnabled ? 'auto-disable' : 'auto-enable';
+        const endpoint = 'auto-toggle';
         const response = await fetch(`${API_BASE}/api/backup/${endpoint}`, {
           method: 'POST',
           headers: {
@@ -86,7 +86,8 @@ const BackupPage = () => {
         });
 
         if (response.ok) {
-          setAutoBackupEnabled(!autoBackupEnabled);
+          const data = await response.json();
+          setAutoBackupEnabled(data.autoBackupEnabled);
         } else {
           alert('Failed to update auto backup setting');
         }
@@ -107,7 +108,7 @@ const BackupPage = () => {
           return;
         }
 
-        const response = await fetch(`${API_BASE}/api/backup/download/latest`, {
+        const response = await fetch(`${API_BASE}/api/backup/download`, {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -354,7 +355,7 @@ const BackupPage = () => {
       console.log("Backing up data:", dataToBackup);
 
       // Upload to server
-      const response = await fetch(`${API_BASE}/api/backup/upload`, {
+      const response = await fetch(`${API_BASE}/api/backup/create`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

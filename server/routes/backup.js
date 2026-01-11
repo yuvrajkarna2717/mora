@@ -4,7 +4,8 @@ const supabase = require('../config/database');
 
 const router = express.Router();
 
-router.post('/upload', authenticateToken, async (req, res) => {
+// Create backup
+router.post('/create', authenticateToken, async (req, res) => {
   try {
     const { data } = req.body;
     const userId = req.user.userId;
@@ -25,24 +26,7 @@ router.post('/upload', authenticateToken, async (req, res) => {
   }
 });
 
-router.get('/download', authenticateToken, async (req, res) => {
-  try {
-    const userId = req.user.userId;
-    const { data, error } = await supabase
-      .from('backups')
-      .select('*')
-      .eq('user_id', userId)
-      .order('created_at', { ascending: false })
-      .limit(1)
-      .single();
-
-    if (error) throw error;
-    res.json(data);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to download backup' });
-  }
-});
-
+// List all backups
 router.get('/list', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -59,77 +43,8 @@ router.get('/list', authenticateToken, async (req, res) => {
   }
 });
 
-// Auto backup endpoints
-router.post('/auto-enable', authenticateToken, async (req, res) => {
-  try {
-    const userId = req.user.userId;
-
-    const { data, error } = await supabase
-      .from('user_preferences')
-      .upsert({
-        user_id: userId,
-        auto_backup: true,
-        updated_at: new Date().toISOString()
-      }, {
-        onConflict: 'user_id'
-      });
-
-    if (error) throw error;
-
-    res.json({ success: true, message: 'Auto backup enabled successfully' });
-  } catch (error) {
-    console.error('Auto backup enable error:', error);
-    res.status(500).json({ success: false, message: 'Failed to enable auto backup' });
-  }
-});
-
-router.post('/auto-disable', authenticateToken, async (req, res) => {
-  try {
-    const userId = req.user.userId;
-
-    const { data, error } = await supabase
-      .from('user_preferences')
-      .upsert({
-        user_id: userId,
-        auto_backup: false,
-        updated_at: new Date().toISOString()
-      }, {
-        onConflict: 'user_id'
-      });
-
-    if (error) throw error;
-
-    res.json({ success: true, message: 'Auto backup disabled successfully' });
-  } catch (error) {
-    console.error('Auto backup disable error:', error);
-    res.status(500).json({ success: false, message: 'Failed to disable auto backup' });
-  }
-});
-
-router.get('/auto-status', authenticateToken, async (req, res) => {
-  try {
-    const userId = req.user.userId;
-
-    const { data, error } = await supabase
-      .from('user_preferences')
-      .select('auto_backup')
-      .eq('user_id', userId)
-      .single();
-
-    if (error && error.code !== 'PGRST116') throw error;
-
-    res.json({ 
-      success: true, 
-      autoBackupEnabled: data?.auto_backup || false 
-    });
-  } catch (error) {
-    console.error('Auto backup status error:', error);
-    res.status(500).json({ success: false, message: 'Failed to get auto backup status' });
-  }
-});
-
-// Download backup endpoints
-router.get('/download/latest', authenticateToken, async (req, res) => {
+// Download latest backup
+router.get('/download', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId;
 
@@ -159,6 +74,7 @@ router.get('/download/latest', authenticateToken, async (req, res) => {
   }
 });
 
+// Download specific backup
 router.get('/download/:id', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -189,7 +105,7 @@ router.get('/download/:id', authenticateToken, async (req, res) => {
   }
 });
 
-// Restore backup endpoint
+// Restore backup
 router.post('/restore/:id', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -209,8 +125,6 @@ router.post('/restore/:id', authenticateToken, async (req, res) => {
       throw error;
     }
 
-    // In a real implementation, you would restore the data to the user's extension
-    // For now, we'll just return the data that should be restored
     res.json({ 
       success: true, 
       message: 'Backup data retrieved for restoration',
@@ -227,7 +141,7 @@ router.post('/restore/:id', authenticateToken, async (req, res) => {
   }
 });
 
-// Delete all backups endpoint
+// Delete all backups
 router.delete('/delete-all', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -246,6 +160,69 @@ router.delete('/delete-all', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Delete all backups error:', error);
     res.status(500).json({ success: false, message: 'Failed to delete backups' });
+  }
+});
+
+// Auto backup settings
+router.get('/auto-status', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    const { data, error } = await supabase
+      .from('user_preferences')
+      .select('auto_backup')
+      .eq('user_id', userId)
+      .single();
+
+    if (error && error.code !== 'PGRST116') throw error;
+
+    res.json({ 
+      success: true, 
+      autoBackupEnabled: data?.auto_backup || false 
+    });
+  } catch (error) {
+    console.error('Auto backup status error:', error);
+    res.status(500).json({ success: false, message: 'Failed to get auto backup status' });
+  }
+});
+
+router.post('/auto-toggle', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    // Get current preference
+    const { data: current, error: fetchError } = await supabase
+      .from('user_preferences')
+      .select('auto_backup')
+      .eq('user_id', userId)
+      .single();
+
+    if (fetchError && fetchError.code !== 'PGRST116') {
+      throw fetchError;
+    }
+
+    const newValue = !(current?.auto_backup ?? false);
+
+    const { data, error } = await supabase
+      .from('user_preferences')
+      .upsert({
+        user_id: userId,
+        auto_backup: newValue,
+        updated_at: new Date().toISOString()
+      }, {
+        onConflict: 'user_id'
+      });
+
+    if (error) throw error;
+
+    res.json({ 
+      success: true, 
+      autoBackupEnabled: newValue,
+      message: `Auto backup ${newValue ? 'enabled' : 'disabled'} successfully` 
+    });
+  } catch (error) {
+    console.error('Auto backup toggle error:', error);
+    res.status(500).json({ success: false, message: 'Failed to toggle auto backup' });
   }
 });
 module.exports = router;

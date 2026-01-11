@@ -1,23 +1,12 @@
 const express = require('express');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { authenticateToken } = require('./auth');
-const { MarkdownTextSplitter } = require('langchain/text_splitter');
 const router = express.Router();
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY);
 const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
-// Function to parse markdown using LangChain
-async function parseMarkdown(text) {
-  const splitter = new MarkdownTextSplitter({
-    chunkSize: 10000,
-    chunkOverlap: 0
-  });
-  const docs = await splitter.createDocuments([text]);
-  return docs[0].pageContent.replace(/[*#]/g, '').trim();
-}
-
-router.post('/generate', async (req, res) => {
+router.post('/generate', authenticateToken, async (req, res) => {
   try {
     const { date, data } = req.body;
     
@@ -54,7 +43,7 @@ Keep it short, positive, and conversational.`;
     const result = await model.generateContent(prompt);
     const response = result.response;
     
-    const cleanedInsights = await parseMarkdown(response.text());
+    const cleanedInsights = response.text().replace(/[*#]/g, '').trim();
     
     res.json({
       date,

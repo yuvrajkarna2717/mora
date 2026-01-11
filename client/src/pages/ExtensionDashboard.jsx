@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { useExtensionData } from "../hooks/useExtensionData";
 import { useExportData } from "../hooks/useExportData";
 import { useSelector } from "react-redux";
@@ -31,14 +31,14 @@ import {
   PieChart,
   Pie,
   Cell,
-  BarChart,
-  Bar,
+  // BarChart,
+  // Bar,
   XAxis,
   YAxis,
   Tooltip,
   ResponsiveContainer,
-  LineChart,
-  Line,
+  // LineChart,
+  // Line,
   AreaChart,
   Area,
 } from "recharts";
@@ -46,7 +46,7 @@ import {
 const ExtensionDashboard = () => {
   const { extensionData, availableDates, loading, fetchExtensionData } =
     useExtensionData();
-  const { user } = useSelector((state) => state.auth);
+  const { user, token } = useSelector((state) => state.auth);
   const { exportData } = useExportData(extensionData);
   const [selectedDate, setSelectedDate] = useState("");
   const [insights, setInsights] = useState(null);
@@ -229,7 +229,8 @@ const ExtensionDashboard = () => {
 
     setLoadingInsights(true);
     try {
-      let authToken = localStorage.getItem("authToken");
+      // Get token from Redux store or localStorage
+      let authToken = token || localStorage.getItem('token');
 
       if (!authToken) {
         const authResponse = await new Promise((resolve) => {

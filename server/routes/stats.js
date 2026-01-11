@@ -1,11 +1,11 @@
 const express = require('express');
 const { authenticateToken } = require('./auth');
 const supabase = require('../config/database');
-const { generateInsights } = require('../utils/ai');
 
 const router = express.Router();
 
-router.post('/analyze', authenticateToken, async (req, res) => {
+// Save usage data
+router.post('/save', authenticateToken, async (req, res) => {
   try {
     const { data } = req.body;
     const userId = req.user.userId;
@@ -21,31 +21,19 @@ router.post('/analyze', authenticateToken, async (req, res) => {
 
     if (error) throw error;
 
-    // Generate AI insights
-    const insights = await generateInsights(data);
-
-    // Store insights
-    await supabase
-      .from('ai_insights')
-      .insert({
-        user_id: userId,
-        insights: insights,
-        data_snapshot: data,
-        created_at: new Date().toISOString()
-      });
-
-    res.json({ insights, data });
+    res.json({ success: true, message: 'Usage data saved successfully' });
   } catch (error) {
-    console.error('Stats analysis error:', error);
-    res.status(500).json({ error: 'Failed to analyze stats' });
+    console.error('Stats save error:', error);
+    res.status(500).json({ error: 'Failed to save usage data' });
   }
 });
 
+// Get usage data history
 router.get('/history', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId;
     const { data, error } = await supabase
-      .from('ai_insights')
+      .from('usage_data')
       .select('*')
       .eq('user_id', userId)
       .order('created_at', { ascending: false })
@@ -54,10 +42,11 @@ router.get('/history', authenticateToken, async (req, res) => {
     if (error) throw error;
     res.json(data);
   } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch history' });
+    res.status(500).json({ error: 'Failed to fetch usage history' });
   }
 });
 
+// Delete specific day data
 router.delete('/day/:date', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId;
@@ -71,22 +60,26 @@ router.delete('/day/:date', authenticateToken, async (req, res) => {
       .lt('created_at', `${date}T23:59:59`);
 
     if (error) throw error;
-    res.json({ success: true });
+    res.json({ success: true, message: 'Day data deleted successfully' });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to delete data' });
+    res.status(500).json({ error: 'Failed to delete day data' });
   }
 });
 
+// Delete all usage data
 router.delete('/all', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.userId;
 
-    await supabase.from('usage_data').delete().eq('user_id', userId);
-    await supabase.from('ai_insights').delete().eq('user_id', userId);
+    const { error } = await supabase
+      .from('usage_data')
+      .delete()
+      .eq('user_id', userId);
 
-    res.json({ success: true });
+    if (error) throw error;
+    res.json({ success: true, message: 'All usage data deleted successfully' });
   } catch (error) {
-    res.status(500).json({ error: 'Failed to delete all data' });
+    res.status(500).json({ error: 'Failed to delete all usage data' });
   }
 });
 

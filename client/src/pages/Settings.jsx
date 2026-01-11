@@ -45,7 +45,7 @@ const Settings = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:3001/api/preferences/auto-backup",
+        "http://localhost:3001/api/backup/auto-status",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -54,7 +54,7 @@ const Settings = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setPreferences({ autoBackup: data.auto_backup });
+        setPreferences({ autoBackup: data.autoBackupEnabled });
       }
     } catch (error) {
       console.error("Error fetching auto backup preference:", error);
@@ -65,7 +65,7 @@ const Settings = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:3001/api/preferences/toggle-auto-backup",
+        "http://localhost:3001/api/backup/auto-toggle",
         {
           method: "POST",
           headers: {
@@ -75,7 +75,7 @@ const Settings = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setPreferences({ autoBackup: data.auto_backup });
+        setPreferences({ autoBackup: data.autoBackupEnabled });
       }
     } catch (error) {
       console.error("Error toggling auto backup:", error);
