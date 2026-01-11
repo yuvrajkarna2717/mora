@@ -115,7 +115,7 @@ const Settings = () => {
     <button
       onClick={onChange}
       className={`relative w-14 h-7 rounded-full transition-all duration-300 border-2 border-gray-900 shadow-md ${
-        checked ? "bg-gradient-to-r from-amber-400 to-orange-400" : "bg-gray-300"
+        checked ? "bg-linear-to-r from-amber-400 to-orange-400" : "bg-gray-300"
       }`}
     >
       <span

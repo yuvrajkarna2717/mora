@@ -89,7 +89,7 @@ const Navbar = () => {
               href="https://chrome.google.com/webstore/detail/mora-extension/your-extension-id"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl font-black text-base transition-all duration-300 border-2 border-gray-900 shadow-md hover:shadow-lg hover:scale-105 whitespace-nowrap"
+              className="inline-flex items-center px-6 py-2.5 bg-linear-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-xl font-black text-base transition-all duration-300 border-2 border-gray-900 shadow-md hover:shadow-lg hover:scale-105 whitespace-nowrap"
             >
               Add to Chrome
             </a>

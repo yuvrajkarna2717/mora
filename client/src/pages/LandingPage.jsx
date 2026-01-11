@@ -203,7 +203,7 @@ const LandingPage = () => {
             </div>
 
             <div className="flex justify-center">
-              <div className="w-full max-w-md aspect-[4/5] bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl shadow-2xl border-4 border-gray-900 flex items-center justify-center p-4 relative overflow-hidden">
+              <div className="w-full max-w-md aspect-4/5 bg-linear-to-r from-gray-100 to-gray-200 rounded-3xl shadow-2xl border-4 border-gray-900 flex items-center justify-center p-4 relative overflow-hidden">
                 {/* Mock Mobile App UI */}
                 <div className="w-full h-full bg-white rounded-2xl border-2 border-gray-300 p-4 flex flex-col">
                   {/* Header */}
@@ -219,7 +219,7 @@ const LandingPage = () => {
                     </div>
                   </div>
                   {/* Main Chart */}
-                  <div className="h-32 bg-gradient-to-r from-amber-400 to-orange-400 rounded-xl mb-4 flex flex-col items-center justify-center relative">
+                  <div className="h-32 bg-linear-to-r from-amber-400 to-orange-400 rounded-xl mb-4 flex flex-col items-center justify-center relative">
                     <div className="absolute top-2 left-2 text-white text-xs font-bold">Weekly Overview</div>
                     <div className="flex items-center gap-2">
                       <span className="text-white font-bold text-lg">28.5h</span>
@@ -495,7 +495,7 @@ const LandingPage = () => {
             </ul>
           </div>
           <div className="lg:w-1/2 flex justify-center">
-            <div className="w-full max-w-md aspect-video bg-gradient-to-br from-gray-100 to-gray-200 rounded-3xl shadow-2xl border-4 border-gray-900 flex items-center justify-center p-4 relative overflow-hidden">
+            <div className="w-full max-w-md aspect-video bg-linear-to-r from-gray-100 to-gray-200 rounded-3xl shadow-2xl border-4 border-gray-900 flex items-center justify-center p-4 relative overflow-hidden">
               {/* Mock Dashboard UI */}
               <div className="w-full h-full bg-white rounded-2xl border-2 border-gray-300 p-3 flex flex-col">
                 {/* Header */}
