@@ -8,7 +8,7 @@ export default defineConfig({
     open: true,
     proxy: {
       "/api": {
-        target: "http://localhost:3001",
+        target: "https://mora-5znf.onrender.com/",
         changeOrigin: true,
       },
     },

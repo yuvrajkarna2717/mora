@@ -17,7 +17,7 @@ const Footer = () => {
     setMessage('');
 
     try {
-      const response = await fetch('http://localhost:3001/api/newsletter/subscribe', {
+      const response = await fetch('https://mora-5znf.onrender.com/api/newsletter/subscribe', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

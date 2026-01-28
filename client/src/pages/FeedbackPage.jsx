@@ -97,7 +97,7 @@ const FeedbackPage = () => {
 
     try {
       const response = await fetch(
-        "http://localhost:3001/api/feedback/submit",
+        "https://mora-5znf.onrender.com/api/feedback/submit",
         {
           method: "POST",
           headers: {

@@ -259,7 +259,7 @@ const ExtensionDashboard = () => {
       }
 
       const response = await fetch(
-        `http://localhost:3001/api/insights/generate`,
+        `https://mora-5znf.onrender.com/api/insights/generate`,
         {
           method: "POST",
           headers: {

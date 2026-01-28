@@ -45,7 +45,7 @@ const Settings = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:3001/api/backup/auto-status",
+        "https://mora-5znf.onrender.com/api/backup/auto-status",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -65,7 +65,7 @@ const Settings = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(
-        "http://localhost:3001/api/backup/auto-toggle",
+        "https://mora-5znf.onrender.com/api/backup/auto-toggle",
         {
           method: "POST",
           headers: {
@@ -92,7 +92,7 @@ const Settings = () => {
     ) {
       try {
         const token = localStorage.getItem("token");
-        const response = await fetch("http://localhost:3001/api/preferences/account", {
+        const response = await fetch("https://mora-5znf.onrender.com/api/preferences/account", {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,

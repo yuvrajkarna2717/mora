@@ -147,8 +147,8 @@ function showNotification(message) {
   }, 2000);
 }
 
-const API_BASE = "http://localhost:3001";
-const UI_BASE = "http://localhost:5173";
+const API_BASE = "https://mora-5znf.onrender.com";
+const UI_BASE = "https://moraextension.pages.dev";
 
 async function getAuthToken() {
   const result = await chrome.storage.local.get(["authToken"]);

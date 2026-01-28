@@ -116,7 +116,7 @@ Mora/
    Create `.env` file in the server directory:
    ```env
    PORT=3001
-   CLIENT_URL=http://localhost:5173
+   CLIENT_URL=https://moraextension.pages.dev
    GOOGLE_CLIENT_ID=your_google_client_id
    GOOGLE_CLIENT_SECRET=your_google_client_secret
    GOOGLE_API_KEY=your_google_api_key
@@ -140,7 +140,7 @@ Mora/
 3. Enable Google+ API
 4. Create OAuth 2.0 credentials
 5. Add authorized redirect URIs:
-   - `http://localhost:3001/auth/google/callback`
+   - `https://mora-5znf.onrender.com/auth/google/callback`
 
 ### Google AI API Setup
 1. Enable Generative AI API in Google Cloud Console

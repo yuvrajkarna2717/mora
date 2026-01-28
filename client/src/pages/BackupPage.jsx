@@ -21,7 +21,7 @@ import {
 } from "lucide-react";
 import ConfirmModal from '../components/ConfirmModal';
 
-const API_BASE = "http://localhost:3001";
+const API_BASE = "https://mora-5znf.onrender.com";
 
 const BackupPage = () => {
   const [backupStatus, setBackupStatus] = useState("idle"); // idle, uploading, success, error
