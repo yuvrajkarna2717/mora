@@ -8,9 +8,22 @@ export default defineConfig({
     open: true,
     proxy: {
       "/api": {
-        target: "https://mora-5znf.onrender.com/",
+        target: "http://localhost:3001",
         changeOrigin: true,
       },
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+          redux: ['@reduxjs/toolkit', 'react-redux'],
+          ui: ['lucide-react'],
+          charts: ['recharts']
+        }
+      }
+    }
+  }
 });
