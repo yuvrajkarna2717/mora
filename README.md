@@ -1,93 +1,165 @@
-# Mora - Browsing Habits Tracker
+#  mora - Browsing Habits Tracker
 
-A free web application that helps users track their browsing habits and get AI-powered insights to boost productivity.
+<p align="center">
+  <img src="public/assets/landing-page.png" alt="Mora Landing Page" width="800"/>
+</p>
 
-## Table of Contents
+<p align="center">
+  <strong>Track your digital time. Reclaim your focus.</strong>
+</p>
 
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [API Documentation](#api-documentation)
-- [Authentication Flow](#authentication-flow)
-- [Privacy Policy System](#privacy-policy-system)
-- [Database Schema](#database-schema)
-- [Deployment](#deployment)
+<p align="center">
+  <a href="https://moraextension.pages.dev/"><strong>🚀 View Live Demo</strong></a>
+</p>
 
-## Overview
+<p align="center">
+  <img src="https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white" alt="React 18"/>
+  <img src="https://img.shields.io/badge/Node.js-Express-339933?logo=node.js&logoColor=white" alt="Node.js"/>
+  <img src="https://img.shields.io/badge/AI-Google_Gemini-4285F4?logo=google&logoColor=white" alt="Google Gemini"/>
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="MIT License"/>
+</p>
 
-Mora is a productivity tracking application that monitors browsing patterns and provides personalized insights using AI. Users can understand where their time goes online and receive actionable recommendations to improve focus and productivity.
+---
 
-## Features
+## 🎯 Overview
 
-- **Google OAuth Authentication**: Secure login with Google accounts
-- **Privacy Policy Management**: Mandatory privacy policy acceptance
-- **Browsing Data Tracking**: Monitor time spent on different websites
-- **AI-Powered Insights**: Get personalized productivity recommendations using Google Gemini
-- **Data Visualization**: View browsing statistics and patterns
-- **Data Export**: Export browsing data for analysis
-- **Responsive Design**: Works on desktop and mobile devices
+Mora is a free, privacy-first web application that transforms raw browsing data into actionable insights. Designed for students, developers, and digital minimalists, Mora helps you understand where your time goes online and provides AI-powered recommendations to boost productivity.
 
-## Tech Stack
+Built by [Yuvraj Karna](https://github.com/yuvrajkarna), Mora bridges the gap between data tracking and meaningful habit change.
+
+---
+
+## ✨ Key Features
+
+### 🔐 **Secure Authentication**
+- One-click Google OAuth 2.0 login
+- No passwords to remember, no sensitive data stored
+
+### 🛡️ **Privacy First**
+- Local-first data principles
+- Mandatory privacy policy acceptance
+- You control your data
+
+### 🤖 **AI-Powered Insights**
+- Personalized productivity recommendations
+- Powered by Google Gemini AI via LangChain
+- Transform raw metadata into human-readable insights
+
+### 📈 **Data Visualization**
+- Clear statistics on your browsing patterns
+- Identify time-sinks and productivity blockers
+- Track trends over time
+
+### ☁️ **Cloud Backup & Export**
+- Securely sync your browsing data
+- Export your data anytime
+- Never lose your tracking history
+
+---
+
+## 📸 Screenshots
+
+<p align="center">
+  <img src="public/assets/extension-dasboard.png" alt="Dashboard View" width="800"/>
+  <br/>
+  <em>Your personal productivity dashboard</em>
+</p>
+
+<p align="center">
+  <img src="public/assets/ai-insights.png" alt="AI-Powered Insights" width="800"/>
+  <br/>
+  <em>Get actionable AI recommendations</em>
+</p>
+
+<p align="center">
+  <img src="public/assets/cloud-backup.png" alt="Cloud Backup" width="800"/>
+  <br/>
+  <em>Secure cloud sync and export</em>
+</p>
+
+---
+
+## 🏗️ Architecture
+
+Mora follows a modern, scalable client-server architecture:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                         Frontend Layer                       │
+│  React 18 + Redux Toolkit + Tailwind CSS + Vite            │
+└───────────────────────────┬─────────────────────────────────┘
+                            │
+┌───────────────────────────▼─────────────────────────────────┐
+│                        Backend Layer                         │
+│  Node.js + Express.js + Passport.js (Google OAuth)          │
+└───────────────────────────┬─────────────────────────────────┘
+                            │
+        ┌───────────────────┼───────────────────┐
+        │                   │                   │
+┌───────▼────────┐ ┌────────▼────────┐ ┌───────▼──────────┐
+│  Intelligence  │ │  Data Storage   │ │    Security      │
+│   Layer        │ │                 │ │                  │
+│  Google Gemini │ │    Supabase     │ │  Passport.js     │
+│  + LangChain   │ │  (PostgreSQL)   │ │  Google OAuth    │
+└────────────────┘ └─────────────────┘ └──────────────────┘
+```
+
+### Core Components
+
+- **Frontend**: Responsive React application with Redux Toolkit for predictable state management
+- **Backend**: Node.js/Express API handling authentication, data processing, and external service communication
+- **Intelligence Layer**: Google Gemini AI integration via LangChain for transforming browsing metadata into insights
+- **Data Persistence**: Supabase (PostgreSQL) for user profiles, usage history, and secure cloud backups
+- **Security**: Passport.js with Google OAuth 2.0 for secure, passwordless authentication
+
+---
+
+## 👥 Who Is This For?
+
+Mora is designed for anyone looking to take control of their digital time:
+
+- **Students & Researchers**: Balance study time and manage deep-work sessions effectively
+- **Developers & Professionals**: Identify time-sinks and optimize workflow efficiency
+- **Digital Minimalists**: Quantify browsing habits and reduce mindless scrolling
+- **Productivity Enthusiasts**: Get data-driven insights to improve focus and time management
+
+---
+
+## 🛠️ Tech Stack
 
 ### Frontend
-- **React 18** - UI framework
-- **Redux Toolkit** - State management
-- **React Router** - Client-side routing
-- **Tailwind CSS** - Styling
-- **Vite** - Build tool and dev server
-- **Lucide React** - Icons
+- **React 18**: Modern UI library
+- **Redux Toolkit**: State management
+- **Tailwind CSS**: Utility-first styling
+- **Vite**: Lightning-fast build tool
 
 ### Backend
-- **Node.js** - Runtime environment
-- **Express.js** - Web framework
-- **Passport.js** - Authentication middleware
-- **JWT** - Token-based authentication
-- **Google OAuth 2.0** - Authentication provider
+- **Node.js**: JavaScript runtime
+- **Express.js**: Web application framework
+- **Passport.js**: Authentication middleware
 
-### Database
-- **Supabase** - PostgreSQL database and backend services
+### Database & AI
+- **Supabase**: PostgreSQL database with real-time capabilities
+- **Google Generative AI (Gemini)**: AI-powered insights
+- **LangChain**: AI orchestration framework
 
-### AI Integration
-- **Google Generative AI** - AI insights using Gemini model
-- **LangChain** - Markdown parsing and text processing
+---
 
-## Project Structure
-
-```
-Mora/
-├── client/                 # Frontend React application
-│   ├── src/
-│   │   ├── components/     # Reusable UI components
-│   │   ├── pages/         # Page components
-│   │   ├── store/         # Redux store and slices
-│   │   └── App.jsx        # Main app component
-│   ├── public/            # Static assets
-│   └── vite.config.js     # Vite configuration
-├── server/                # Backend Node.js application
-│   ├── routes/           # API route handlers
-│   ├── config/           # Configuration files
-│   ├── utils/            # Utility functions
-│   ├── schema.sql        # Database schema
-│   └── index.js          # Server entry point
-└── README.md
-```
-
-## Installation
+## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+
-- npm or yarn
-- Supabase account
-- Google Cloud Console account
 
-### Setup
+- Node.js (v16 or higher)
+- npm or yarn
+- Google Cloud Platform account (for OAuth credentials)
+- Supabase account
+- Google AI API key
+
+### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/yuvrajkarna2717/mora.git
    cd Mora
    ```
 
@@ -102,300 +174,139 @@ Mora/
    npm install
    ```
 
-3. **Database setup**
-   - Create a Supabase project
-   - Run the SQL schema from `server/schema.sql`
-   - Add privacy policy fields:
-     ```sql
-     ALTER TABLE users 
-     ADD COLUMN privacy_policy_accepted BOOLEAN DEFAULT FALSE,
-     ADD COLUMN privacy_policy_accepted_at TIMESTAMP WITH TIME ZONE;
-     ```
+3. **Environment setup**
 
-4. **Environment configuration**
-   Create `.env` file in the server directory:
+   Create a `.env` file in the `/server` directory:
+   
    ```env
    PORT=3001
    CLIENT_URL=https://moraextension.pages.dev
+   
+   # Google OAuth 2.0
    GOOGLE_CLIENT_ID=your_google_client_id
    GOOGLE_CLIENT_SECRET=your_google_client_secret
-   GOOGLE_API_KEY=your_google_api_key
+   
+   # Google AI
+   GOOGLE_API_KEY=your_gemini_api_key
+   
+   # JWT
    JWT_SECRET=your_jwt_secret
+   
+   # Supabase
+   SUPABASE_URL=your_supabase_url
+   SUPABASE_ANON_KEY=your_supabase_anon_key
    ```
 
-5. **Start the application**
+4. **Run the application**
+
    ```bash
-   # Start server (from server directory)
+   # Start the backend server (from /server directory)
    npm start
 
-   # Start client (from client directory)
+   # In a new terminal, start the frontend (from /client directory)
    npm run dev
    ```
 
-## Configuration
+5. **Access the application**
 
-### Google OAuth Setup
+   Open your browser and navigate to `http://localhost:5173` (or the port Vite assigns)
+
+---
+
+## 📝 Configuration
+
+### Setting up Google OAuth
+
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
-2. Create a new project or select existing
-3. Enable Google+ API
+2. Create a new project or select an existing one
+3. Enable the Google+ API
 4. Create OAuth 2.0 credentials
-5. Add authorized redirect URIs:
-   - `https://mora-5znf.onrender.com/auth/google/callback`
+5. Add authorized redirect URIs
+6. Copy your Client ID and Client Secret to the `.env` file
 
-### Google AI API Setup
-1. Enable Generative AI API in Google Cloud Console
-2. Create API key
-3. Add to environment variables
+### Setting up Google AI (Gemini)
 
-### Supabase Configuration
-1. Create new Supabase project
-2. Get project URL and anon key
-3. Update `server/config/database.js` with your credentials
+1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Generate an API key
+3. Add the key to your `.env` file as `GOOGLE_API_KEY`
 
-## API Documentation
+### Setting up Supabase
 
-### Authentication Endpoints
+1. Create a new project at [Supabase](https://supabase.com/)
+2. Copy your project URL and anon key
+3. Add them to your `.env` file
+4. Set up your database schema (see `/server/database/schema.sql` if provided)
 
-#### `GET /auth/google`
-Initiates Google OAuth flow
-- **Response**: Redirects to Google OAuth
+---
 
-#### `GET /auth/google/callback`
-Handles Google OAuth callback
-- **Response**: Redirects to client with JWT token
+## 🌟 Features In Detail
 
-#### `POST /auth/logout`
-Logs out user
-- **Response**: `{ success: true }`
+### Privacy-First Approach
+- All sensitive data is encrypted
+- Browsing data stays local unless you choose to sync
+- Transparent data handling with mandatory privacy policy acceptance
 
-#### `GET /auth/verify`
-Verifies JWT token
-- **Headers**: `Authorization: Bearer <token>`
-- **Response**: `{ valid: true, user: {...} }`
+### AI-Powered Recommendations
+- Analyzes your browsing patterns
+- Identifies productivity blockers
+- Suggests actionable improvements
+- Learns from your habits over time
 
-### Privacy Policy Endpoints
+### Comprehensive Analytics
+- Time spent per website
+- Category-based analysis
+- Daily, weekly, and monthly trends
+- Productivity score tracking
 
-#### `GET /api/privacy/status`
-Check privacy policy acceptance status
-- **Headers**: `Authorization: Bearer <token>`
-- **Response**: `{ accepted: boolean }`
+---
 
-#### `POST /api/privacy/accept`
-Accept privacy policy
-- **Headers**: `Authorization: Bearer <token>`
-- **Response**: `{ success: true }`
+## 🤝 Contributing
 
-### Insights Endpoints
-
-#### `POST /api/insights/generate`
-Generate AI insights from browsing data
-- **Headers**: `Authorization: Bearer <token>`
-- **Body**: 
-  ```json
-  {
-    "date": "2024-01-01",
-    "data": {
-      "domain1.com": 3600000,
-      "domain2.com": 1800000
-    }
-  }
-  ```
-- **Response**: 
-  ```json
-  {
-    "date": "2024-01-01",
-    "insights": "AI-generated insights text",
-    "summary": {
-      "totalTime": 90,
-      "topDomains": [...]
-    }
-  }
-  ```
-
-### Stats Endpoints
-
-#### `POST /api/stats/save`
-Save browsing statistics
-- **Headers**: `Authorization: Bearer <token>`
-- **Body**: `{ data: {...} }`
-
-#### `GET /api/stats/get`
-Retrieve browsing statistics
-- **Headers**: `Authorization: Bearer <token>`
-- **Response**: Array of usage data
-
-### Backup Endpoints
-
-#### `POST /api/backup/create`
-Create data backup
-- **Headers**: `Authorization: Bearer <token>`
-- **Body**: `{ data: {...} }`
-
-#### `GET /api/backup/list`
-List user backups
-- **Headers**: `Authorization: Bearer <token>`
-
-## Authentication Flow
-
-1. **User clicks "Sign in with Google"** → Redirects to `/signin`
-2. **User clicks Google button** → Calls `/auth/google`
-3. **Google OAuth flow** → User authorizes application
-4. **Google callback** → `/auth/google/callback` processes response
-5. **JWT creation** → Server creates JWT with user data
-6. **Client redirect** → Redirects to `/auth/callback` with token
-7. **Token processing** → Client saves token and user data
-8. **Privacy check** → PrivacyPolicyGuard checks acceptance
-9. **Dashboard access** → User accesses protected routes
-
-## Privacy Policy System
-
-### Flow
-1. **After login** → PrivacyPolicyGuard checks `/api/privacy/status`
-2. **If not accepted** → Redirects to `/privacy-policy`
-3. **User agreement** → Must check checkbox to continue
-4. **API call** → `/api/privacy/accept` updates database
-5. **Redirect** → User proceeds to dashboard
-
-### Database Fields
-- `privacy_policy_accepted`: Boolean (default: false)
-- `privacy_policy_accepted_at`: Timestamp
-
-## Database Schema
-
-### Users Table
-```sql
-CREATE TABLE users (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  google_id VARCHAR UNIQUE NOT NULL,
-  email VARCHAR UNIQUE NOT NULL,
-  name VARCHAR NOT NULL,
-  avatar VARCHAR,
-  privacy_policy_accepted BOOLEAN DEFAULT FALSE,
-  privacy_policy_accepted_at TIMESTAMP WITH TIME ZONE,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-```
-
-### Usage Data Table
-```sql
-CREATE TABLE usage_data (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-  data JSONB NOT NULL,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-```
-
-### AI Insights Table
-```sql
-CREATE TABLE ai_insights (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-  insights TEXT NOT NULL,
-  data_snapshot JSONB,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-```
-
-### Backups Table
-```sql
-CREATE TABLE backups (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
-  data JSONB NOT NULL,
-  backup_type VARCHAR DEFAULT 'manual',
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
-);
-```
-
-## State Management
-
-### Redux Store Structure
-```javascript
-{
-  auth: {
-    user: null | UserObject,
-    token: null | string,
-    isAuthenticated: boolean,
-    loading: boolean
-  }
-}
-```
-
-### Auth Actions
-- `loginStart()` - Set loading state
-- `loginSuccess(payload)` - Set user and token
-- `loginFailure()` - Clear auth state
-- `logout()` - Clear all auth data
-- `setUser(user)` - Update user data
-
-## Component Architecture
-
-### Key Components
-- **App.jsx** - Main application wrapper
-- **AuthInitializer** - Loads auth state from localStorage
-- **PrivacyPolicyGuard** - Protects routes requiring privacy acceptance
-- **Navbar** - Navigation with auth-aware UI
-- **HeroSection** - Landing page hero
-- **SignIn** - Google authentication page
-- **PrivacyPolicy** - Privacy policy acceptance page
-
-### Protected Routes
-Routes wrapped with `PrivacyPolicyGuard`:
-- `/dashboard`
-- `/profile`
-- `/settings`
-
-## Deployment
-
-### Environment Variables
-```env
-# Server
-PORT=3001
-CLIENT_URL=https://your-domain.com
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-GOOGLE_API_KEY=your_google_api_key
-JWT_SECRET=your_jwt_secret
-
-# Database
-SUPABASE_URL=your_supabase_url
-SUPABASE_ANON_KEY=your_supabase_anon_key
-```
-
-### Build Commands
-```bash
-# Build client
-cd client
-npm run build
-
-# Start server
-cd server
-npm start
-```
-
-### Deployment Checklist
-- [ ] Update Google OAuth redirect URIs
-- [ ] Set production environment variables
-- [ ] Configure CORS for production domain
-- [ ] Set up SSL certificates
-- [ ] Configure database for production
-- [ ] Test authentication flow
-- [ ] Verify AI insights functionality
-
-## Contributing
+Contributions are welcome! Here's how you can help:
 
 1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## License
+---
 
-This project is licensed under the MIT License.
+## 📄 License
 
-## Support
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-For support, email support@mora-app.com or create an issue in the repository.
+---
+
+## 👨‍💻 Author
+
+**Yuvraj Karna**
+
+- GitHub: [@yuvrajkarna2717](https://github.com/yuvrajkarna2717)
+- Email: [support@mora-app.com](mailto:yuvrajkarna.code@gmail.com)
+
+---
+
+## 🙏 Acknowledgments
+
+- Google Gemini AI for powering intelligent insights
+- Supabase for reliable database infrastructure
+- The open-source community for amazing tools and libraries
+
+---
+
+## 📞 Support
+
+- **Issues**: [GitHub Issues](https://github.com/yuvrajkarna2717/mora/issues)
+- **Email**: [support@mora-app.com](mailto:yuvraj.code@gmail.com)
+- **Live Demo**: [https://moraextension.pages.dev/](https://moraextension.pages.dev/)
+
+---
+
+<p align="center">
+  Made with ❤️ by <a href="https://github.com/yuvrajkarna">Yuvraj Karna</a>
+</p>
+
+<p align="center">
+  <strong>Star ⭐ this repository if you find it helpful!</strong>
+</p>

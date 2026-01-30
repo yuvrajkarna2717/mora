@@ -15,7 +15,7 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen bg-amber-50 text-gray-900 font-sans antialiased">
       {/* Hero Section */}
-      <section className="bg-amber-50 px-6 py-32 sm:px-8 md:px-12 lg:px-16 flex flex-col items-center justify-center min-h-screen">
+      <section className="bg-amber-50 px-6 py-18 sm:px-8 md:px-12 lg:px-16 flex flex-col items-center justify-center min-h-screen">
         <div className="max-w-6xl mx-auto text-center mt-16">
           <div className="inline-block mb-6">
             <span className="text-sm font-semibold text-amber-700 bg-amber-100 px-4 py-2 rounded-full">
