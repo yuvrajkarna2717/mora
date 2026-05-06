@@ -283,7 +283,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Yuvraj Karna**
 
 - GitHub: [@yuvrajkarna2717](https://github.com/yuvrajkarna2717)
-- Email: [support@mora-app.com](mailto:yuvrajkarna.code@gmail.com)
+- Email: [yuvraj.code@gmail.com](mailto:yuvrajkarna.code@gmail.com)
 
 ---
 
@@ -298,7 +298,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - **Issues**: [GitHub Issues](https://github.com/yuvrajkarna2717/mora/issues)
-- **Email**: [support@mora-app.com](mailto:yuvraj.code@gmail.com)
+- **Email**: [yuvraj.code@gmail.com](mailto:yuvraj.code@gmail.com)
 - **Live Demo**: [https://moraextension.pages.dev/](https://moraextension.pages.dev/)
 
 ---
